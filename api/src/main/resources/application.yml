@@ -1,0 +1,32 @@
+api:
+  name: @project.name@
+  description: @project.description@
+  version: @project.version@
+
+spring:
+
+  profiles:
+    active: prod
+
+  datasource:
+    platform: h2
+    data: classpath*:db/h2/data.sql
+    schema: classpath*:db/h2/schema.sql
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  resources:
+    static-locations: "file:webapp/src/,file:webapp/bower_components/"
+
+  thymeleaf:
+    cache: false
+
+resources:
+  avatar-folder: images/avatars/
+
+remember-me:
+  token: SN_REMEMBER_TOKEN
+  cookie: SN_REMEMBER_ME_COOKIE
+

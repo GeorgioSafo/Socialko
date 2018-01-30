@@ -1,0 +1,1 @@
+SpringSocialNetworkPet for pet project
