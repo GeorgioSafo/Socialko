@@ -5,9 +5,6 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +17,9 @@ import ru.petproject.socialnetwork.service.PersonService;
 import ru.petproject.socialnetwork.service.RollService;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 import static ru.petproject.socialnetwork.config.Constants.URI_API_PREFIX;
 import static ru.petproject.socialnetwork.config.Constants.URI_ROLL;
 
@@ -43,13 +43,18 @@ public class RollController {
 
     @ApiOperation(value = "Roll of a current person")
     @GetMapping(value = "/roll")
-    public Page<RollView> getRoll(
-            @ApiIgnore @CurrentProfile Person profile,
-            @PageableDefault(size = 20) Pageable pageRequest) {
+    public List<RollView> getRoll(
+            @ApiIgnore @CurrentProfile Person profile) {
         log.debug("REST request to get roll of id:{} person", profile.getId());
 
-        final Page<Roll> roll = rollService.getCurrentRoll(profile, pageRequest);
+        final List<Roll> roll = rollService.getCurrentRoll(profile);
 
-        return roll.map(RollView::new);
+        return map(roll);
+    }
+
+    private List<RollView> map(List<Roll> messages) {
+        return messages.stream()
+                .map(RollView::new)
+                .collect(toList());
     }
 }

@@ -21,6 +21,7 @@ public class RollView implements Serializable {
     private String avatar;
     private String body;
     private Date posted;
+    private int likes;
 
     public RollView(Roll roll) {
         final Person person = SecurityUtils.currentProfile();
@@ -28,10 +29,11 @@ public class RollView implements Serializable {
 
         this.id = roll.getId();
         this.person_id = rollPerson.getId();
-        this.avatar = AvatarService.getAvatar(rollPerson.getId(), rollPerson.getFullName());
+        this.avatar = AvatarService.getPageAvatar(rollPerson.getId());
         this.person_name = rollPerson.getFullName();
         this.posted = roll.getPosted();
         this.body = roll.getBody().replace("\n", "\\n");
+        this.likes = roll.getLikes() == null ? 0 : roll.getLikes();
     }
 }
 

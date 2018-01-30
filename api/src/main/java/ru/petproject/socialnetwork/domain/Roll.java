@@ -1,5 +1,6 @@
 package ru.petproject.socialnetwork.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,8 +37,9 @@ public class Roll implements Serializable {
     @Getter
     private Date posted = new Date();
 
-    @Column(insertable = false)
     @Getter
-    private int likes;
+    @Setter
+    @JsonIgnore
+    private Integer likes;
 
 }
