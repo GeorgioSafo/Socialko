@@ -85,5 +85,4 @@ public class MessageController {
                 .map(MessageView::new)
                 .collect(toList());
     }
-
 }
