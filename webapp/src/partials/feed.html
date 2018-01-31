@@ -1,0 +1,34 @@
+<div class="container-fluid col-sm-12 view-container" ng-show="authenticated">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong>News Feed</strong>
+        </div>
+        <div class="panel-body chat messages" id="feed">
+            <div class="chat-message">
+                <ul class="feed" ng-repeat="message in messageList | orderBy: posted: false">
+                    <li ng-class="['clearfix', profileId===message.senderId ? 'right' : 'left']">
+                        <a href="#/messages/{{message.interlocutor}}" title="Make the record">
+                            <span ng-class="['chat-img', 'pull-' + (profileId===message.senderId ? 'right' : 'left')]">
+                            <ng-letter-avatar data={{message.avatar}} shape="round"></ng-letter-avatar>
+                            </span>
+                            <div class="chat-body clearfix">
+                                <div class="header">
+                                    <strong class="primary-font">Author: {{feedItem.senderName}}</strong>
+                                    <small class="pull-right text-muted">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                        {{feedItem.posted | dateOrTime}}
+                                    </small>
+                                </div>
+                                <div>
+                                    <b>Likes:</b>
+                                    <span>{{feedItem.likes}}}</span>
+                                </div>
+                                <div class="last-message text-muted angular-with-newlines">{{feedItem.body}}</div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
