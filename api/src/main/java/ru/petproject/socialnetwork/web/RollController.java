@@ -43,7 +43,7 @@ public class RollController {
     }
 
     @ApiOperation(value = "List post of a current person")
-    @GetMapping(value = "/roll")
+    @GetMapping(value = "/all")
     public List<RollView> getRoll(
             @ApiIgnore @CurrentProfile Person profile) {
         log.debug("REST request to get roll of id:{} person", profile.getId());

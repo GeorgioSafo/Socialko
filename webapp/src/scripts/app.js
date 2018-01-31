@@ -26,7 +26,7 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
             templateUrl: 'partials/feed.html',
             controller: 'feedController'
         })
-        .when('/feed/:profileId', {
+        .when('/feed/all', {
             templateUrl: 'partials/feed.html',
             controller: 'feedController'
         })
