@@ -5,25 +5,25 @@
         </div>
         <div class="panel-body chat messages" id="feed">
             <div class="chat-message">
-                <ul class="feed" ng-repeat="message in messageList | orderBy: posted: false">
-                    <li ng-class="['clearfix', profileId===message.senderId ? 'right' : 'left']">
-                        <a href="#/messages/{{message.interlocutor}}" title="Make the record">
-                            <span ng-class="['chat-img', 'pull-' + (profileId===message.senderId ? 'right' : 'left')]">
-                            <ng-letter-avatar data={{message.avatar}} shape="round"></ng-letter-avatar>
+                <ul class="feed" ng-repeat="feed in feed | orderBy: posted: false">
+                    <li ng-class="['clearfix', profileId===feed.senderId ? 'right' : 'left']">
+                        <a href="#/feed/{{feed.interlocutor}}" title="Make the record">
+                            <span ng-class="['chat-img', 'pull-' + (profileId===feed.senderId ? 'right' : 'left')]">
+                            <ng-letter-avatar data={{feed.avatar}} shape="round"></ng-letter-avatar>
                             </span>
                             <div class="chat-body clearfix">
                                 <div class="header">
-                                    <strong class="primary-font">Author: {{feedItem.senderName}}</strong>
+                                    <strong class="primary-font">Author: {{feed.person_name}}</strong>
                                     <small class="pull-right text-muted">
                                         <span class="glyphicon glyphicon-time"></span>
-                                        {{feedItem.posted | dateOrTime}}
+                                        {{feed.posted | dateOrTime}}
                                     </small>
                                 </div>
                                 <div>
                                     <b>Likes:</b>
-                                    <span>{{feedItem.likes}}}</span>
+                                    <span>{{feed.likes}}</span>
                                 </div>
-                                <div class="last-message text-muted angular-with-newlines">{{feedItem.body}}</div>
+                                <div class="last-message text-muted angular-with-newlines">{{feed.body}}</div>
                             </div>
                         </a>
                     </li>
