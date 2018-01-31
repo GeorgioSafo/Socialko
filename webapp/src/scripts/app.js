@@ -22,6 +22,14 @@ app.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpPr
             templateUrl: 'partials/users.html',
             controller: 'usersController'
         })
+        .when('/feed', {
+            templateUrl: 'partials/feed.html',
+            controller: 'feedController'
+        })
+        .when('/feed/all', {
+            templateUrl: 'partials/feed.html',
+            controller: 'feedController'
+        })
         .when('/messages', {
             templateUrl: 'partials/messages.html',
             controller: 'messagesController'

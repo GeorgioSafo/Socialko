@@ -45,6 +45,37 @@ app.service('MessageService', ['$timeout', function ($timeout) {
 
 }]);
 
+app.service('FeedService', ['$timeout', function ($timeout) {
+
+    var feedService = {};
+
+    feedService.scrollElement = function (id) {
+        $timeout(function () {
+            var scroller = document.getElementById(id);
+            scroller.scrollTop = scroller.scrollHeight;
+        }, 0, false)
+    };
+
+    feedService.convertDateAndMultiLines = function (feedList) {
+        feedList.forEach(function (feedItem) {
+            feedItem.body = feedItem.body.replace(/\\n/g, '\n');
+            feedItem.posted = new Date(feedItem.posted);
+        });
+        return feedList
+    };
+
+    feedService.addRecord = function (sender, recipient, text) {
+        return {
+            "sender": sender,
+            "recipient": recipient,
+            "body": text
+        };
+    };
+
+    return feedService;
+
+}]);
+
 app.service('AuthService', ['$http', '$route', '$rootScope', 'URL', function ($http, $route, $rootScope, URL) {
 
     var defAvatar = URL +'/images/avatars/anonymous.png';

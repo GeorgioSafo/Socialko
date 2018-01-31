@@ -12,6 +12,30 @@ app.directive('buttonSendMessage', function () {
     };
 });
 
+app.directive('buttonMakeTheRecord', function () {
+    return {
+        restrict: 'E',
+        scope: {
+            profile: '='
+        },
+        template: '<a href="#/feed/new/{{profile.id}}" role="button" class="btn btn-secondary btn-sm">' +
+        '<span class="glyphicon glyphicon-envelope"></span>Make Record</a>',
+        replace: true
+    };
+});
+
+app.directive('buttonMakeTheRecord', function () {
+    return {
+        restrict: 'E',
+        scope: {
+            profile: '='
+        },
+        template: '<a href="#/feed/new/{{profile.id}}" role="button" class="btn btn-secondary btn-sm">' +
+        '<span class="glyphicon glyphicon-envelope"></span>Make Record</a>',
+        replace: true
+    };
+});
+
 app.directive('buttonRemoveFriend', function () {
     return {
         restrict: 'E',

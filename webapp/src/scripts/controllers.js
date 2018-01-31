@@ -1,4 +1,4 @@
-var app = angular.module('socialNetwork').config(configure);;
+var app = angular.module('socialNetwork');
 
 app.controller('tabController', ['AuthService', '$http', '$scope', '$route', '$rootScope', '$location', 'URL',
     function (AuthService, $http, $scope, $route, $rootScope, $location, URL) {
@@ -9,6 +9,11 @@ app.controller('tabController', ['AuthService', '$http', '$scope', '$route', '$r
             link: 'profile',
             name: 'profile',
             title: 'Profile',
+            visible: true
+        }, {
+            link: 'feed',
+            name: 'feed',
+            title: 'Feed',
             visible: true
         }, {
             link: 'friends',
@@ -229,7 +234,7 @@ app.controller('usersController', ['UserService', '$http', '$scope', 'URL',
 
         function getPeople() {
             var url = URL + '/api/people?page=' + ($scope.currentPage - 1) + "&size=" + $scope.entryLimit + "&searchTerm=" + $scope.personSearch;
-            $http.get(url,{data: ""}).then(function (response) {
+            $http.get(url).then(function (response) {
                 $scope.people = response.data.content;
                 $scope.totalElements = response.data.totalElements;
                 $scope.totalPages = response.data.totalPages;
@@ -265,6 +270,36 @@ app.controller('messagesController', ['MessageService', '$http', '$scope', 'URL'
                 MessageService.scrollElement("chat");
             });
         }
+
+    }]);
+
+app.controller('feedController', ['AuthService','FeedService', '$http', '$scope', '$routeParams', 'URL',
+    function (AuthService, FeedService, $http, $scope, $routeParams, URL) {
+
+        $scope.feed = [];
+        // var id = !$routeParams.profileId ? AuthService.profileId : parseInt($routeParams.profileId);
+
+        $scope.getFeed = function (onlyPersonal) {
+            onlyPersonal
+                ? $http.get(URL + '/api/roll/personal/' + $scope.profile.id).then(function (response) {
+                    $scope.feed = FeedService.convertDateAndMultiLines(response.data);
+                    FeedService.scrollElement("feed");
+                })
+                : $http.get(URL + '/api/roll/all/', {data: ""}).then(function (response) {
+                    $scope.feed = FeedService.convertDateAndMultiLines(response.data);
+                    FeedService.scrollElement("feed");
+                });
+        };
+
+        $scope.sendRecord = function () {
+            var feedItem = FeedService.addRecord($scope.profileId, $scope.profile.id, $scope.feedData);
+            $http.post(URL + '/api/roll/add', feedItem).then(function () {
+                $scope.feedData = "";
+                $scope.getFeed();
+            });
+        };
+
+        $scope.getFeed();
 
     }]);
 
@@ -304,10 +339,10 @@ app.controller('loginController', ['AuthService', '$scope', '$route', '$rootScop
         var authenticate = function (credentials, callback) {
 
             var headers = credentials ? {
-                    authorization: "Basic "
-                    + btoa(credentials.username + ":" + credentials.password),
-                    withCredentials: "true"
-                } : {};
+                authorization: "Basic "
+                + btoa(credentials.username + ":" + credentials.password),
+                withCredentials: "true"
+            } : {};
 
             $http.defaults.headers.common["Content-Type"] = "application/json";
             $http.defaults.data = "";
@@ -362,10 +397,10 @@ app.controller('signUpController', ['AuthService', '$scope', '$route', '$rootSco
             };
 
             var headers = credentials ? {
-                    authorization: "Basic "
-                    + btoa(credentials.userName + ":" + credentials.password),
-                    withCredentials: "true"
-                } : {};
+                authorization: "Basic "
+                + btoa(credentials.userName + ":" + credentials.password),
+                withCredentials: "true"
+            } : {};
 
             $http.post(URL + '/api/signUp', credentials).then(function (response) {
                 $scope.success = true;

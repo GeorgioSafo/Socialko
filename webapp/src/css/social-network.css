@@ -84,6 +84,12 @@ label {
     border: none;
 }
 
+.feedAvatar {
+    top: 50%;
+    position: absolute;
+    margin-top: -22px;
+}
+
 .table .glyphicon-envelope {
     margin-left: 5px;
     margin-right: 5px;
@@ -159,6 +165,14 @@ img {
     background-color: #fff;
 }
 
+.chat li.left .feed-body {
+    background-color: #fff;
+}
+
+.chat li.left .post {
+    margin-left: 70px;
+}
+
 .chat li .chat-body {
     position: relative;
     font-size: 13px;
@@ -212,6 +226,25 @@ img {
     -moz-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     -o-transform: rotate(45deg);
+}
+
+.chat li .feed-body {
+    position: relative;
+    font-size: 13px;
+    padding: 10px;
+    border: 1px solid #f1f5fc;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+}
+
+.chat li .feed-body .header {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #f1f5fc;
+}
+
+.chat li .feed-body p {
+    margin: 0;
 }
 
 .chat li {
