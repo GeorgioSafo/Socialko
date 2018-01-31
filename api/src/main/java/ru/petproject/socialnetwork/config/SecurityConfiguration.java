@@ -85,13 +85,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint(new Http401AuthenticationEntryPoint("Access Denied"))
                 .and()
-                .csrf()
-                .csrfTokenRepository(csrfTokenRepository())
-                .and()
                 .cors()
                 .and()
-                .addFilterAfter(csrfFilter, CsrfFilter.class)
-        ;
+                .addFilterAfter(csrfFilter, CsrfFilter.class);
+
+        http.csrf().disable();
         // @formatter:on
     }
 
