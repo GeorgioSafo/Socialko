@@ -5,21 +5,22 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.petproject.socialnetwork.domain.Person;
 import ru.petproject.socialnetwork.domain.Roll;
+import ru.petproject.socialnetwork.model.RollPost;
 import ru.petproject.socialnetwork.model.RollView;
 import ru.petproject.socialnetwork.security.CurrentProfile;
 import ru.petproject.socialnetwork.service.PersonService;
 import ru.petproject.socialnetwork.service.RollService;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.Valid;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 import static ru.petproject.socialnetwork.config.Constants.URI_API_PREFIX;
 import static ru.petproject.socialnetwork.config.Constants.URI_ROLL;
 
@@ -41,15 +42,34 @@ public class RollController {
         this.personService = personService;
     }
 
-    @ApiOperation(value = "Roll of a current person")
+    @ApiOperation(value = "List post of a current person")
     @GetMapping(value = "/roll")
-    public Page<RollView> getRoll(
-            @ApiIgnore @CurrentProfile Person profile,
-            @PageableDefault(size = 20) Pageable pageRequest) {
+    public List<RollView> getRoll(
+            @ApiIgnore @CurrentProfile Person profile) {
         log.debug("REST request to get roll of id:{} person", profile.getId());
 
-        final Page<Roll> roll = rollService.getCurrentRoll(profile, pageRequest);
+        final List<Roll> roll = rollService.getCurrentRoll(profile);
 
-        return roll.map(RollView::new);
+        return map(roll);
+    }
+
+    @ApiOperation(value = "Send new post")
+    @PostMapping(value = "/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void send(@ApiIgnore @CurrentProfile Person profile, @RequestBody @Valid RollPost rollPost) {
+        log.debug("REST request to send message: {}", rollPost);
+
+        final Roll roll = new Roll();
+        roll.setBody(rollPost.getBody());
+        roll.setPerson(profile);
+
+        rollService.add(roll);
+    }
+
+
+    private List<RollView> map(List<Roll> messages) {
+        return messages.stream()
+                .map(RollView::new)
+                .collect(toList());
     }
 }
