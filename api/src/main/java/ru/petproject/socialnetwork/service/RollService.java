@@ -25,4 +25,8 @@ public class RollService {
         return rollRepository.getRoll(person.getId());
     }
 
+
+    public void add(Roll roll) {
+        rollRepository.save(roll);
+    }
 }
